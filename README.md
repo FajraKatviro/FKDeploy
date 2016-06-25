@@ -11,3 +11,6 @@ Usage:
   * DEPLOY_BUILD_FOLDER (path where distributable package would build)
 2. Include fkdeploy.pri to your .pro file
 3. Add build step 'make deploy'
+
+Currently avaliable for platforms:
+  - None

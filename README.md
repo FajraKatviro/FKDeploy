@@ -1,6 +1,7 @@
 Simple multiplatform toolset for install packages creation
 
 Usage:
+
 1. Check your qt project file contain following variables:
 	VERSION (Qt-defined)
 	ICON (Qt-defined, path to icon image)

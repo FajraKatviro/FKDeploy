@@ -37,5 +37,6 @@ for /f "delims== tokens=1,2" %%G in (%buildConfigFile%) do @set %%G=%%H
     endlocal
 ))>%targetPath%\%NAME%.wxs
 
-%WIX%\candle %targetPath%\%NAME%.wxs
-%WIX%\light %targetPath%\%NAME%.wixobj
+"%WIX%\bin\heat" dir "%FOLDER%" -ag -ke -out "%targetPath%\%NAME%_files.wxs"
+REM "%WIX%\bin\candle" "%targetPath%\%NAME%.wxs"
+REM "%WIX%\bin\light" "%targetPath%\%NAME%.wixobj"

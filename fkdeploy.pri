@@ -1,7 +1,7 @@
 
 ATTRIBUTELIST =
 ATTRIBUTELIST += NAME=$$PRODUCT
-ATTRIBUTELIST += FOLDER=$$OUT_PWD
+ATTRIBUTELIST += FOLDER=$$DESTDIR
 ATTRIBUTELIST += VERSION=$$VERSION
 ATTRIBUTELIST += ICON=$$ICON
 ATTRIBUTELIST += COMPANY=$$ORGANIZATION
@@ -9,20 +9,22 @@ ATTRIBUTELIST += LICENSE=$$LICENSE
 
 DEPLOY_BUILD_CONFIG_FILE = $$DEPLOY_BUILD_FOLDER/buildConfig.txt
 
-write_file(DEPLOY_BUILD_CONFIG_FILE,ATTRIBUTELIST)
+!exists($$DEPLOY_BUILD_FOLDER){
+    mkpath($$DEPLOY_BUILD_FOLDER)
+}
 
-deploy.commands += echo Build deploy package
+write_file($$DEPLOY_BUILD_CONFIG_FILE,ATTRIBUTELIST)
 
 win32{
-    deploy.commands += $$PWD/winDeploy.bat $$DEPLOY_BUILD_CONFIG_FILE $$DEPLOY_BUILD_FOLDER
+    deploy.commands += $$PWD/winDeploy.bat $$system_path($$DEPLOY_BUILD_CONFIG_FILE) $$system_path($$DEPLOY_BUILD_FOLDER)
 }else:mac{
     !ios{
-        deploy.commands += $$PWD/macDeploy.sh $$DEPLOY_BUILD_CONFIG_FILE $$DEPLOY_BUILD_FOLDER
+        deploy.commands += $$PWD/macDeploy.sh $$system_path($$DEPLOY_BUILD_CONFIG_FILE) $$system_path($$DEPLOY_BUILD_FOLDER)
     }else{
         deploy.commands += echo Target not supported
     }
 }else:!android{
-    deploy.commands += $$PWD/nixDeploy.sh $$DEPLOY_BUILD_CONFIG_FILE $$DEPLOY_BUILD_FOLDER
+    deploy.commands += $$PWD/nixDeploy.sh $$system_path($$DEPLOY_BUILD_CONFIG_FILE) $$system_path($$DEPLOY_BUILD_FOLDER)
 }else{
     deploy.commands += echo Target not supported
 }

@@ -3,6 +3,7 @@ Simple multiplatform toolset for install packages creation
 Usage:
 
 1. Check your qt project file contain following variables:
+  * DESTDIR (Qt-defined)
   * VERSION (Qt-defined)
   * ICON (Qt-defined, path to icon image)
   * PRODUCT (defines package name)

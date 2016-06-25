@@ -24,7 +24,7 @@ if not exist %targetPath% (
 
 for /f "delims== tokens=1,2" %%G in (%buildConfigFile%) do @set %%G=%%H
 
-(for /f "delims=" %%i in (Install.wxs) do (
+(for /f "delims=" %%i in (%~dp0\Install.wxs) do (
     set "line=%%i"
     setlocal enabledelayedexpansion
     set "line=!line:{NAME}=%NAME%!"
@@ -35,7 +35,7 @@ for /f "delims== tokens=1,2" %%G in (%buildConfigFile%) do @set %%G=%%H
     set "line=!line:{LICENSE}=%LICENSE%!"
     echo(!line!
     endlocal
-))>%targetPath%\%APP_NAME%.wxs
+))>%targetPath%\%NAME%.wxs
 
-%WIX%\candle %targetPath%\%APP_NAME%.wxs
-%WIX%\light %targetPath%\%APP_NAME%.wixobj
+%WIX%\candle %targetPath%\%NAME%.wxs
+%WIX%\light %targetPath%\%NAME%.wixobj

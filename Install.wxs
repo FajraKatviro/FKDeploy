@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+
+	<?define ProductName="{NAME}" ?>
+	<?define ProductFolder="{FOLDER}" ?>
+	<?define ProductVersion="{VERSION}" ?>
+	<?define ProductIcon="{ICON}" ?>
+	<?define Manufacturer="{COMPANY}" ?>
+	<?define License="{LICENSE}" ?>
+
+	<Product Name="$(var.ProductName)" Manufacturer="$(var.Manufacturer)"
+     		Id='*' 
+        	UpgradeCode='*'
+        	Language='1033' Codepage='1252' Version='1.0.0'>
+		<Package Id='*' 
+			Keywords='Installer' 
+			Description="$(var.ProductName) Installer"
+        		Manufacturer="$(var.Manufacturer)"
+        		InstallerVersion='100' 
+			Languages='1033' 
+			Compressed='yes' 
+			SummaryCodepage='1252' 
+		/>
+		<Directory Id='TARGETDIR' Name='SourceDir'>
+			<Directory Id='ProgramFilesFolder' Name='PFiles'>
+				<Directory Id="INSTALLLOCATION" Name="$(var.ProductName)">
+					<Component Id="ProductComponent" Guid="*">
+						<File/>
+					</Component>
+        			</Directory>
+      			</Directory>
+	    	</Directory>
+
+		<Feature Id="ProductFeature" Title="$(var.ProductName)" Level="1">
+			<ComponentRef Id="ProductComponent"/>
+		</Feature>
+
+		<Icon Id="icon.png" SourceFile="$(var.ProductIcon)"/>
+		<WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="$(var.License)"/>
+
+	</Product>
+</Wix>

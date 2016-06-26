@@ -10,6 +10,7 @@ Usage:
   * ORGANIZATION (defines package maintainer)
   * LICENSE (path to license file)
   * DEPLOY_BUILD_FOLDER (path where distributable package would build)
+  * UPGRADE_CODE (GUID for app version, used by WIX, windows only)
 2. Include fkdeploy.pri to your .pro file
 3. Add build step 'make deploy'
 

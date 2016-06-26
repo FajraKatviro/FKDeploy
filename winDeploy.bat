@@ -28,15 +28,14 @@ for /f "delims== tokens=1,2" %%G in (%buildConfigFile%) do @set %%G=%%H
     set "line=%%i"
     setlocal enabledelayedexpansion
     set "line=!line:{NAME}=%NAME%!"
-    set "line=!line:{FOLDER}=%FOLDER%!"
     set "line=!line:{VERSION}=%VERSION%!"
-    set "line=!line:{ICON}=%APP_ICON%!"
+    set "line=!line:{ICON}=%ICON%!"
     set "line=!line:{COMPANY}=%COMPANY%!"
     set "line=!line:{LICENSE}=%LICENSE%!"
     echo(!line!
     endlocal
 ))>%targetPath%\%NAME%.wxs
 
-"%WIX%\bin\heat" dir "%FOLDER%" -ag -ke -out "%targetPath%\%NAME%_files.wxs"
-REM "%WIX%\bin\candle" "%targetPath%\%NAME%.wxs"
+"%WIX%\bin\heat" dir "%FOLDER%" -cg ProjectFiles -gg -scom -sreg -sfrag -srd -ke -dr INSTALLLOCATION -var var.ProductFolder -out "%targetPath%\%NAME%_files.wxs"
+"%WIX%\bin\candle" -dProductFolder="%FOLDER%" -dUpgradeGuid="%UPGRADE_CODE%" "%targetPath%\%NAME%.wxs" "%targetPath%\%NAME%_files.wxs"
 REM "%WIX%\bin\light" "%targetPath%\%NAME%.wixobj"

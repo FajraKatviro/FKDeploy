@@ -1,17 +1,14 @@
 <?xml version='1.0' encoding='windows-1252'?>
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
-
 	<?define ProductName="{NAME}" ?>
-	<?define ProductFolder="{FOLDER}" ?>
 	<?define ProductVersion="{VERSION}" ?>
 	<?define ProductIcon="{ICON}" ?>
 	<?define Manufacturer="{COMPANY}" ?>
 	<?define License="{LICENSE}" ?>
-
 	<Product Name="$(var.ProductName)" Manufacturer="$(var.Manufacturer)"
      		Id='*' 
-        	UpgradeCode='*'
-        	Language='1033' Codepage='1252' Version='1.0.0'>
+		UpgradeCode="$(var.UpgradeGuid)"
+        	Language='1033' Codepage='1252' Version="$(var.ProductVersion)">
 		<Package Id='*' 
 			Keywords='Installer' 
 			Description="$(var.ProductName) Installer"
@@ -23,16 +20,12 @@
 		/>
 		<Directory Id='TARGETDIR' Name='SourceDir'>
 			<Directory Id='ProgramFilesFolder' Name='PFiles'>
-				<Directory Id="INSTALLLOCATION" Name="$(var.ProductName)">
-					<Component Id="ProductComponent" Guid="*">
-						<File/>
-					</Component>
-        			</Directory>
+				<Directory Id="INSTALLLOCATION" Name="$(var.ProductName)"/>
       			</Directory>
 	    	</Directory>
 
 		<Feature Id="ProductFeature" Title="$(var.ProductName)" Level="1">
-			<ComponentRef Id="ProductComponent"/>
+			<ComponentGroupRef Id="ProjectFiles"/>
 		</Feature>
 
 		<Icon Id="icon.png" SourceFile="$(var.ProductIcon)"/>

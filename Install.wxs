@@ -5,6 +5,7 @@
 	<?define ProductIcon="{ICON}" ?>
 	<?define Manufacturer="{COMPANY}" ?>
 	<?define License="{LICENSE}" ?>
+	<?define Executable="{TARGET}" ?>
 	<Product Name="$(var.ProductName)" Manufacturer="$(var.Manufacturer)"
      		Id='*' 
 		UpgradeCode="$(var.UpgradeGuid)"
@@ -28,8 +29,23 @@
 			<ComponentGroupRef Id="ProjectFiles"/>
 		</Feature>
 
-		<Icon Id="icon.png" SourceFile="$(var.ProductIcon)"/>
+		<Icon Id="icon" SourceFile="$(var.ProductIcon)"/>
+		<Property Id="ARPPRODUCTICON" Value="icon" />
 		<WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="$(var.License)"/>
+		<Media Id="1" Cabinet="media1.cab" EmbedCab="yes"/>
+
+		<UI>
+			<UIRef Id="WixUI_InstallDir"/>
+			<Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">
+				WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed
+			</Publish>
+		</UI>
+		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION"/>
+		<Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch $(var.ProductName)" />
+		<Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" />
+
+		<Property Id="WixShellExecTarget" Value="[INSTALLLOCATION]\$(var.Executable).exe" />
+    		<CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
 
 	</Product>
 </Wix>

@@ -14,11 +14,10 @@ if not exist %buildConfigFile% (
 echo Build install package for %1 in %2
 
 if not exist %targetPath% (
-	echo Create folder %targetPath% 
 	mkdir %targetPath%
 )
 if not exist %targetPath% (
-	echo Failed
+	echo Unable create target folder
 	exit /b
 )
 
@@ -29,7 +28,7 @@ for /f "delims== tokens=1,2" %%G in (%buildConfigFile%) do @set %%G=%%H
     setlocal enabledelayedexpansion
     set "line=!line:{NAME}=%NAME%!"
     set "line=!line:{VERSION}=%VERSION%!"
-    set "line=!line:{ICON}=%ICON%!"
+    set "line=!line:{INSTALL_ICON}=%INSTALL_ICON%!"
     set "line=!line:{COMPANY}=%COMPANY%!"
     set "line=!line:{LICENSE}=%LICENSE%!"
     set "line=!line:{TARGET}=%TARGET%!"

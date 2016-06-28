@@ -2,7 +2,7 @@
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
 	<?define ProductName="{NAME}" ?>
 	<?define ProductVersion="{VERSION}" ?>
-	<?define ProductIcon="{ICON}" ?>
+	<?define ProductIcon="{INSTALL_ICON}" ?>
 	<?define Manufacturer="{COMPANY}" ?>
 	<?define License="{LICENSE}" ?>
 	<?define Executable="{TARGET}" ?>
@@ -29,8 +29,8 @@
 			<ComponentGroupRef Id="ProjectFiles"/>
 		</Feature>
 
-		<Icon Id="icon" SourceFile="$(var.ProductIcon)"/>
-		<Property Id="ARPPRODUCTICON" Value="icon" />
+		<Icon Id="icon.ico" SourceFile="$(var.ProductIcon)"/>
+		<Property Id="ARPPRODUCTICON" Value="icon.ico" />
 		<WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="$(var.License)"/>
 		<Media Id="1" Cabinet="media1.cab" EmbedCab="yes"/>
 

@@ -1,10 +1,31 @@
 
+isEmpty(DESTDIR){
+        error("DESTDIR variable not set, deploy tool would fail")
+}
+isEmpty(DEPLOY_BUILD_FOLDER){
+        error("DEPLOY_BUILD_FOLDER variable not set, deploy tool would fail")
+}
+isEmpty(LICENSE){
+        error("LICENSE variable not set, deploy for windows would fail")
+}
+isEmpty(UPGRADE_CODE){
+        error("UPGRADE_CODE variable not set, deploy for windows would fail")
+}
+
+include(fkprojecthelper.pri)
+
+win32{
+    INSTALL_ICON = $$RC_ICONS
+}else{
+    INSTALL_ICON = $$ICON
+}
+
 ATTRIBUTELIST =
-ATTRIBUTELIST += NAME=$$PRODUCT
+ATTRIBUTELIST += NAME=$$QMAKE_TARGET_PRODUCT
 ATTRIBUTELIST += FOLDER=$$DESTDIR
 ATTRIBUTELIST += VERSION=$$VERSION
 ATTRIBUTELIST += INSTALL_ICON=$$INSTALL_ICON
-ATTRIBUTELIST += COMPANY=$$ORGANIZATION
+ATTRIBUTELIST += COMPANY=$$QMAKE_TARGET_COMPANY
 ATTRIBUTELIST += LICENSE=$$LICENSE
 ATTRIBUTELIST += UPGRADE_CODE=$$UPGRADE_CODE
 ATTRIBUTELIST += TARGET=$$TARGET

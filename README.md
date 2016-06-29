@@ -5,7 +5,7 @@ Usage:
 1. Check your qt project file contain following variables:
   * DESTDIR (Qt-defined)
   * VERSION (Qt-defined)
-  * ICON (Qt-defined, path to icon image for unix systems)
+  * ICON (Qt-defined, path to icon image for mac systems, ICNS required)
   * RC_ICONS (Qt-defined, path to icon image for windows systems, ICO required)
   * QMAKE_TARGET_PRODUCT (defines package name)
   * QMAKE_TARGET_COMPANY (defines package maintainer)
@@ -24,3 +24,4 @@ Also you can use helper function to apply project settings to application instan
 
 Currently avaliable for platforms:
   - Windows (WIX required)
+  - Mac OS (simple dmg only); todo: add icon and good appearance to dmg "installer" 

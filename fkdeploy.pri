@@ -40,7 +40,7 @@ win32{
 
 win32{
     deploy.commands = windeployqt --no-translations --qmldir "$$_PRO_FILE_PWD_" "$$DESTDIR" $$escape_expand(\n\t) \
-        $$PWD/winDeploy.bat $$system_path($$DEPLOY_BUILD_CONFIG_FILE) $$system_path($$DEPLOY_BUILD_FOLDER)
+        "$$PWD/winDeploy.bat" "$$system_path($$DEPLOY_BUILD_CONFIG_FILE)" "$$system_path($$DEPLOY_BUILD_FOLDER)"
 }else:mac{
     !ios{
         deploy.commands = macdeployqt "$$DESTDIR/$${TARGET}.app" -dmg -always-overwrite -appstore-compliant -qmldir="$$_PRO_FILE_PWD_" $$escape_expand(\n\t) \
@@ -49,7 +49,7 @@ win32{
         deploy.commands = echo Target not supported
     }
 }else:!android{
-    deploy.commands = $$PWD/nixDeploy.sh $$system_path($$DEPLOY_BUILD_CONFIG_FILE) $$system_path($$DEPLOY_BUILD_FOLDER)
+    deploy.commands = echo Target not implemented
 }else{
     deploy.commands = echo Target not supported
 }

@@ -1,6 +1,6 @@
 
-isEmpty(QMAKE_INFO_PLIST){
-    error("QMAKE_INFO_PLIST path is not set")
+isEmpty(FK_IOS_PLIST){
+    error("FK_IOS_PLIST path is not set")
 }
 
 isEmpty(FK_IOS_ICONS){
@@ -12,6 +12,8 @@ isEmpty(FK_IOS_SPLASH_SCREENS){
 }
 
 ios{
+    QMAKE_INFO_PLIST = $$FK_IOS_PLIST
+
     QMAKE_IOS_DEPLOYMENT_TARGET = 7.0
 
     ios_icon.files = $$files($$FK_IOS_ICONS/AppIcon*.png) $$files($$FK_IOS_ICONS/iTunesArtwork*)

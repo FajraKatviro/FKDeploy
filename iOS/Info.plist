@@ -121,6 +121,9 @@
             </dict>
         </array>
 
+        <key>UIStatusBarHidden</key>
+        <true/>
+
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleGetInfoString</key>

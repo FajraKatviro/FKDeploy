@@ -6,7 +6,7 @@ win32{
 }
 
 mac{
-    FK_TOOLS_FOLDER = "$(HOME)/Applications/FKTools"
+    FK_TOOLS_FOLDER = "/$(HOME)/Applications/FKTools"
 }
 
 export(FK_TOOLS_FOLDER)

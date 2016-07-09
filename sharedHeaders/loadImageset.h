@@ -12,7 +12,12 @@
 
 namespace FKUtility {
     bool loadImageset(const QString& imageset, const QSize& platformResolution){
-        QDir dir(imageset);
+        qDebug("load imageset %s", imageset.toLatin1().constData());
+        QString resourceLocation(".");
+#ifdef Q_OS_OSX
+        resourceLocation="../Resources";
+#endif
+        QDir dir(resourceLocation+"/"+imageset);
         QFileInfoList resourceFiles=dir.entryInfoList(QStringList("*.rcc"));
         QList<QSize> avaliableSizes;
         foreach(QFileInfo resourceFile,resourceFiles){
@@ -31,7 +36,7 @@ namespace FKUtility {
         }
         QSize targetSize(selectBestSizeset(avaliableSizes,platformResolution));
         if(targetSize.isEmpty())return false;
-        QString resourceFileName=QString("%1/%2x%3.rcc").arg(imageset).arg(QString::number(targetSize.width())).arg(QString::number(targetSize.height()));
+        QString resourceFileName=QString("%1/%2/%3x%4.rcc").arg(resourceLocation).arg(imageset).arg(QString::number(targetSize.width())).arg(QString::number(targetSize.height()));
         return QResource::registerResource(resourceFileName);
     }
 }

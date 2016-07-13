@@ -4,6 +4,7 @@
 #include <QSize>
 #include <QList>
 #include <QString>
+#include <QFileInfo>
 #include <QStringList>
 
 #include "selectBestSizeset.h"
@@ -15,8 +16,8 @@ namespace FKUtility {
         QList<QSize> avaliableSizes;
         ResourceLocator locator(imageset);
 
-        foreach(QString resourceFile,locator.resourceFiles()){
-            QStringList sizeInfo=resourceFile.completeBaseName().split('x');
+        foreach(QString resourceFile,locator.resourceFiles().keys()){
+            QStringList sizeInfo=QFileInfo(resourceFile).completeBaseName().split('x');
             if(sizeInfo.size()!=2){
                 qWarning("Invalid resource file");
                 continue;

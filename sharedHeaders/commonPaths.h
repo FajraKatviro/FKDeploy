@@ -7,7 +7,10 @@
 
 namespace FKUtility {
     QDir dataDir(){
-        return QDir(QStandardPaths::locate(QStandardPaths::AppDataLocation, "data", QStandardPaths::LocateDirectory));
+        QString path(QStandardPaths::locate(QStandardPaths::AppDataLocation, "data", QStandardPaths::LocateDirectory));
+        if(path.isEmpty())
+            path="./data";
+        return QDir(path);
     }
     QDir dlcDir(){
         return QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/dlc");

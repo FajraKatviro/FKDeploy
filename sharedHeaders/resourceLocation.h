@@ -33,13 +33,15 @@ namespace FKUtility {
             if(i==_resources.constEnd()){
                 return resourceNotFound;
             }
-            if(!QResource::registerResource(resourceFileName)){
+            if(!QResource::registerResource(i.value())){
                 return loadingFailed;
             }
             return loadingSuccess;
         }
     private:
-        void read(const QDir& dir){
+        void read(QDir dir){
+            if(!dir.cd(_package))
+                return;
             QFileInfoList resourceFiles=dir.entryInfoList(QDir::Files);
             foreach(QFileInfo resourceFile,resourceFiles){
                 _resources[resourceFile.fileName()]=resourceFile.canonicalFilePath();

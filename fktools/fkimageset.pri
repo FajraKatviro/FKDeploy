@@ -10,18 +10,18 @@ isEmpty(ART_BUILD_FOLDER){
 
 ART_DEPLOY_FOLDER =
 
-win32{
-    ART_DEPLOY_FOLDER = "$$DESTDIR"
+!mac:!android{
+    ART_DEPLOY_FOLDER = "$$DESTDIR/data"
 }
 
 mac{
     !isEmpty(QMAKE_POST_LINK): QMAKE_POST_LINK += ";"
     ios{
         QMAKE_POST_LINK += \
-            "cp -r $$ART_BUILD_FOLDER/bin/* $CODESIGNING_FOLDER_PATH/"
+            "cp -r $$ART_BUILD_FOLDER/bin/* $CODESIGNING_FOLDER_PATH/Library/Application Support/data/"
     }else{
         QMAKE_POST_LINK += \
-            "cp -r $$ART_BUILD_FOLDER/bin/* $$DESTDIR/$${TARGET}.app/Contents/Resources"
+            "cp -r $$ART_BUILD_FOLDER/bin/* $$DESTDIR/$${TARGET}.app/Contents/Resources/data"
     }
 }
 

@@ -2,25 +2,20 @@
 #define LOADIMAGESET_H
 
 #include <QSize>
+#include <QList>
 #include <QString>
-#include <QResource>
 #include <QStringList>
-#include <QDir>
-#include <QFileInfo>
 
 #include "selectBestSizeset.h"
+#include "resourceLocation.h"
 
 namespace FKUtility {
     bool loadImageset(const QString& imageset, const QSize& platformResolution){
         qDebug("load imageset %s", imageset.toLatin1().constData());
-        QString resourceLocation(".");
-#ifdef Q_OS_OSX
-        resourceLocation="../Resources";
-#endif
-        QDir dir(resourceLocation+"/"+imageset);
-        QFileInfoList resourceFiles=dir.entryInfoList(QStringList("*.rcc"));
         QList<QSize> avaliableSizes;
-        foreach(QFileInfo resourceFile,resourceFiles){
+        ResourceLocator locator(imageset);
+
+        foreach(QString resourceFile,locator.resourceFiles()){
             QStringList sizeInfo=resourceFile.completeBaseName().split('x');
             if(sizeInfo.size()!=2){
                 qWarning("Invalid resource file");
@@ -34,10 +29,16 @@ namespace FKUtility {
             }
             avaliableSizes.append(QSize(width,height));
         }
+
         QSize targetSize(selectBestSizeset(avaliableSizes,platformResolution));
-        if(targetSize.isEmpty())return false;
-        QString resourceFileName=QString("%1/%2/%3x%4.rcc").arg(resourceLocation).arg(imageset).arg(QString::number(targetSize.width())).arg(QString::number(targetSize.height()));
-        return QResource::registerResource(resourceFileName);
+        if(targetSize.isEmpty()){
+            return false;
+        }
+
+        QString resource=QString("%1x%2").arg(QString::number(targetSize.width())).arg(QString::number(targetSize.height()));
+
+        ResourceLocator::Result result=locator.load(resource);
+        return result==ResourceLocator::loadingSuccess;
     }
 }
 

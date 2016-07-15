@@ -38,6 +38,8 @@ win32{
     write_file($$DEPLOY_BUILD_CONFIG_FILE,ATTRIBUTELIST)
 }
 
+include (../fktools/fktoolsfolder.pri)
+
 win32{
     deploy.commands = windeployqt --no-translations --qmldir "$$_PRO_FILE_PWD_" "$$DESTDIR" $$escape_expand(\n\t) \
         "$$PWD/winDeploy.bat" "$$system_path($$DEPLOY_BUILD_CONFIG_FILE)" "$$system_path($$DEPLOY_BUILD_FOLDER)"
@@ -46,12 +48,12 @@ win32{
         deploy.commands = macdeployqt "$$DESTDIR/$${TARGET}.app" -dmg -always-overwrite -appstore-compliant -qmldir="$$_PRO_FILE_PWD_" $$escape_expand(\n\t) \
             mv "$$DESTDIR/$${TARGET}.dmg" "$$DEPLOY_BUILD_FOLDER/$${QMAKE_TARGET_PRODUCT}.dmg"
     }else{
-        deploy.commands = echo Target not supported
+        deploy.commands = echo Target not supported by FKDeploy tool. Please, use iosdeployqt instead
     }
 }else:!android{
-    deploy.commands = echo Target not implemented
+    deploy.commands = "$$PWD/nixDeploy.sh" "$$DESTDIR/$${TARGET}" "$$DESTDIR" "$$FK_TOOLS_FOLDER" "$$_PRO_FILE_PWD_"
 }else{
-    deploy.commands = echo Target not supported
+    deploy.commands = echo Target not supported by KDeploy tool. Please, use androiddeployqt instead
 }
 
 QMAKE_EXTRA_TARGETS += deploy

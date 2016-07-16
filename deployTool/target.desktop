@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name={TARGET}
+Comment={SHORT_DESCRIPTION}
+GenericName={NAME}
+Exec=/opt/{TARGET}/{TARGET}.sh
+Icon={TARGET}
+Categories=Games
+Terminal=false
+Type=Application
+Version={VERSION}

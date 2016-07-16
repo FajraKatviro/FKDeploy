@@ -10,7 +10,7 @@ isEmpty(ART_BUILD_FOLDER){
 
 ART_DEPLOY_FOLDER =
 
-!mac:!android{
+!mac:!android{ # win/linux
     ART_DEPLOY_FOLDER = "$$DESTDIR/data"
 }
 

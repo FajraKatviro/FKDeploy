@@ -1,42 +1,74 @@
 #!/bin/bash
 
-if [ -z "$2" ]
+CONFIG_FILE=$1
+PACKAGE_BUILD_PATH=$2
+
+if [ -z "$PACKAGE_BUILD_PATH" ]
   then
     exit 1
 fi
 
-#create subfolders
-mkdir -p "$2/libs"
-mkdir -p "$2/platforms"
+#read config file
+while IFS= read -r line; do
+    line=${line%%#*}  # strip comment (if any)
+    case $line in
+      *=*)
+        var=${line%%=*}
+        case $var in
+          *[!A-Z_a-z]*)
+            echo "Warning: invalid variable name $var ignored" >&2
+            continue;;
+        esac
+        if eval '[ -n "${'$var'+1}" ]'; then
+          echo "Warning: variable $var already set, redefinition ignored" >&2
+          continue
+        fi
+        line=${line#*=}
+        eval $var='"$line"'
+    esac
+done <"$CONFIG_FILE"
 
-#copy platform plugin
-cp -v "$QTDIR/plugins/platforms/libqxcb.so" "$2/platforms"
+#create build folders
+mkdir -p "$PACKAGE_BUILD_PATH/deb/opt/$TARGET"
 
-#copy other plugins
-cp -R -v "$QTDIR/plugins/imageformats" "$2"
-cp -R -v "$QTDIR/plugins/bearer" "$2"
-cp -R -v "$QTDIR/plugins/iconengines" "$2"
+#copy templates
+cp -R "$(dirname $0)/DEBIAN" "$PACKAGE_BUILD_PATH/deb"
+mkdir -p "$PACKAGE_BUILD_PATH/deb/usr/share/applications"
+cp -R "$(dirname $0)/target.desktop" "$PACKAGE_BUILD_PATH/deb/usr/share/applications/$TARGET.desktop"
 
-#copy shared libraries
-ldd "$1" | grep "=> /" | awk '{print $3}' | xargs -I '{}' cp -v '{}' "$2/libs"
+#fill template
+sed -i "s/{NAME}/${NAME}/g" "$PACKAGE_BUILD_PATH/deb/DEBIAN/control"
+sed -i "s/{VERSION}/${VERSION}/g" "$PACKAGE_BUILD_PATH/deb/DEBIAN/control"
+sed -i "s/{COMPANY}/${COMPANY}/g" "$PACKAGE_BUILD_PATH/deb/DEBIAN/control"
+sed -i "s/{SHORT_DESCRIPTION}/${SHORT_DESCRIPTION}/g" "$PACKAGE_BUILD_PATH/deb/DEBIAN/control"
+while IFS='' read -r line
+do
+    echo " $line" >> "$PACKAGE_BUILD_PATH/deb/DEBIAN/control"
+done < "$LONG_DESCRIPTION"
+sed -i "s/{TARGET}/${TARGET}/g" "$PACKAGE_BUILD_PATH/deb/usr/share/applications/$TARGET.desktop"
+sed -i "s/{NAME}/${NAME}/g" "$PACKAGE_BUILD_PATH/deb/usr/share/applications/$TARGET.desktop"
+sed -i "s/{VERSION}/${VERSION}/g" "$PACKAGE_BUILD_PATH/deb/usr/share/applications/$TARGET.desktop"
+sed -i "s/{SHORT_DESCRIPTION}/${SHORT_DESCRIPTION}/g" "$PACKAGE_BUILD_PATH/deb/usr/share/applications/$TARGET.desktop"
 
-#copy additional libs
-cp -v "$QTDIR/lib/libQt5Widgets.so.5" "$2/libs"
-cp -v "$QTDIR/lib/libQt5Network.so.5" "$2/libs"
-cp -v "$QTDIR/lib/libQt5Qml.so.5" "$2/libs"
-cp -v "$QTDIR/lib/libQt5Quick.so.5" "$2/libs"
-cp -v "$QTDIR/lib/libQt5Svg.so.5" "$2/libs"
+#copy content
+cp "$LICENSE" "$PACKAGE_BUILD_PATH/deb/DEBIAN/copyright"
+cp -R "$FOLDER/." "$PACKAGE_BUILD_PATH/deb/opt/$TARGET"
 
-#create runner script
-cp -v "$(dirname $0)/nixRun.sh" "$1.sh"
+#copy icon
+mkdir -p "$PACKAGE_BUILD_PATH/usr/share/icons/hicolor/120x120"
+cp "$INSTALL_ICON" "$PACKAGE_BUILD_PATH/usr/share/icons/hicolor/120x120/$TARGET.desktop"
 
-if [ -z "$4" ]
-  then
-    exit 0
-fi
+#strip binary
+#find "$PACKAGE_BUILD_PATH/deb/opt" -type f | xargs strip --strip-debug #not working
 
-#copy qml imports
-QMLIMPORTS=$(mktemp)
-"$QTDIR/bin/qmlimportscanner" -rootPath "$4" -importPath "$QTDIR/qml" > "$QMLIMPORTS"
-"$3/DeployQML" --json "$QMLIMPORTS" --qml "$QTDIR/qml" "$2"
 
+#calculate hashsum
+cd "$PACKAGE_BUILD_PATH/deb"
+md5deep -rl opt > "DEBIAN/md5sums"
+cd -
+
+
+#build deb-pack
+fakeroot dpkg-deb --build "$PACKAGE_BUILD_PATH/deb" "$PACKAGE_BUILD_PATH"
+
+#lintian "$PACKAGE_BUILD_PATH/$(echo ${NAME}_${VERSION}_amd64.deb | tr '[:upper:]' '[:lower:]')" #a lot of errors

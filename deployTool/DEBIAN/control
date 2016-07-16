@@ -1,0 +1,6 @@
+Package: {NAME}
+Version: {VERSION}
+Section: games
+Architecture: amd64
+Maintainer: {COMPANY}
+Description: {SHORT_DESCRIPTION}

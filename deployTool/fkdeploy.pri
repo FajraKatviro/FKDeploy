@@ -11,6 +11,12 @@ isEmpty(LICENSE){
 isEmpty(UPGRADE_CODE){
         error("UPGRADE_CODE variable not set, deploy for windows would fail")
 }
+isEmpty(SHORT_DESCRIPTION){
+        error("SHORT_DESCRIPTION variable not set, deploy for linux would fail")
+}
+isEmpty(LONG_DESCRIPTION){
+        error("LONG_DESCRIPTION variable not set, deploy for linux would fail")
+}
 
 include(fkprojecthelper.pri)
 
@@ -24,7 +30,7 @@ win32{
     mkpath($$DEPLOY_BUILD_FOLDER)
 }
 
-win32{
+!mac:!android{ # win/linux
     ATTRIBUTELIST =
     ATTRIBUTELIST += NAME=$$QMAKE_TARGET_PRODUCT
     ATTRIBUTELIST += FOLDER=$$DESTDIR
@@ -34,6 +40,8 @@ win32{
     ATTRIBUTELIST += LICENSE=$$LICENSE
     ATTRIBUTELIST += UPGRADE_CODE=$$UPGRADE_CODE
     ATTRIBUTELIST += TARGET=$$TARGET
+    ATTRIBUTELIST += SHORT_DESCRIPTION=$$SHORT_DESCRIPTION
+    ATTRIBUTELIST += LONG_DESCRIPTION=$$LONG_DESCRIPTION
     DEPLOY_BUILD_CONFIG_FILE = $$DEPLOY_BUILD_FOLDER/buildConfig.txt
     write_file($$DEPLOY_BUILD_CONFIG_FILE,ATTRIBUTELIST)
 }
@@ -51,7 +59,8 @@ win32{
         deploy.commands = echo Target not supported by FKDeploy tool. Please, use iosdeployqt instead
     }
 }else:!android{
-    deploy.commands = "$$PWD/nixDeploy.sh" "$$DESTDIR/$${TARGET}" "$$DESTDIR" "$$FK_TOOLS_FOLDER" "$$_PRO_FILE_PWD_"
+    deploy.commands = "$$PWD/nixdeployqt.sh" "$${TARGET}" "$$DESTDIR" "$$FK_TOOLS_FOLDER" "$$_PRO_FILE_PWD_" $$escape_expand(\n\t) \
+        "$$PWD/nixDeploy.sh" "$$DEPLOY_BUILD_CONFIG_FILE" "$$DEPLOY_BUILD_FOLDER"
 }else{
     deploy.commands = echo Target not supported by KDeploy tool. Please, use androiddeployqt instead
 }

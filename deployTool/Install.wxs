@@ -36,16 +36,16 @@
 
 		<UI>
 			<UIRef Id="WixUI_InstallDir"/>
-			<Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">
+                        <!--<Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">
 				WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed
-			</Publish>
+                        </Publish> -->
 		</UI>
 		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION"/>
-		<Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch $(var.ProductName)" />
-		<Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" />
+                <!--<Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch $(var.ProductName)" />
+                <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" />
 
 		<Property Id="WixShellExecTarget" Value="[INSTALLLOCATION]\$(var.Executable).exe" />
-    		<CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
+                <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />-->
 
 	</Product>
 </Wix>

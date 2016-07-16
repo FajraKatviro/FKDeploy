@@ -36,7 +36,7 @@
 
 		<UI>
 			<UIRef Id="WixUI_InstallDir"/>
-                        <!--<Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">
+                        <!--<Publish Dialog="ExitDialog" Control="Finish" Event="DoAc tion" Value="LaunchApplication">
 				WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed
                         </Publish> -->
 		</UI>

@@ -5,8 +5,8 @@ Usage:
 1. Check your qt project file contain following variables:
   * DESTDIR (Qt-defined)
   * VERSION (Qt-defined)
-  * ICON (Qt-defined, path to icon image for mac systems, ICNS required)
-  * RC_ICONS (Qt-defined, path to icon image for windows systems, ICO required)
+  * ICON (Qt-defined, path to *.icns for mac systems, or to 128x128 sized *.png for linux systems)
+  * RC_ICONS (Qt-defined, path to icon image for windows systems, *.ico required)
   * QMAKE_TARGET_PRODUCT (defines package name)
   * QMAKE_TARGET_COMPANY (defines package maintainer)
   * LICENSE (path to license file, RTF required by WIX)
@@ -26,5 +26,10 @@ Also you can use helper function to apply project settings to application instan
 
 Currently avaliable for platforms:
   - Windows (WIX required)
-  - Mac OS (simple dmg only); todo: add icon and good appearance to dmg "installer" 
+  - Mac OS (simple dmg only)
   - Ubuntu (dpkg, lintian, md5deep packages required)
+
+Release notes:
+
+  1. Mac dmg does not contain any decorations and icon, this shoul be fixed later
+  2. Linux deploy step is terrible and I need help to improve it. Also, lintian shows a lot of errors and it is disabled now. Please, contact me to deal with it.

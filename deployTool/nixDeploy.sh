@@ -44,6 +44,7 @@ sed -i "s/{SHORT_DESCRIPTION}/${SHORT_DESCRIPTION}/g" "$PACKAGE_BUILD_PATH/deb/D
 while IFS='' read -r line
 do
     echo " $line" >> "$PACKAGE_BUILD_PATH/deb/DEBIAN/control"
+    echo " ." >> "$PACKAGE_BUILD_PATH/deb/DEBIAN/control"
 done < "$LONG_DESCRIPTION"
 sed -i "s/{TARGET}/${TARGET}/g" "$PACKAGE_BUILD_PATH/deb/usr/share/applications/$TARGET.desktop"
 sed -i "s/{NAME}/${NAME}/g" "$PACKAGE_BUILD_PATH/deb/usr/share/applications/$TARGET.desktop"
@@ -55,8 +56,8 @@ cp "$LICENSE" "$PACKAGE_BUILD_PATH/deb/DEBIAN/copyright"
 cp -R "$FOLDER/." "$PACKAGE_BUILD_PATH/deb/opt/$TARGET"
 
 #copy icon
-mkdir -p "$PACKAGE_BUILD_PATH/usr/share/icons/hicolor/120x120"
-cp "$INSTALL_ICON" "$PACKAGE_BUILD_PATH/usr/share/icons/hicolor/120x120/$TARGET.desktop"
+mkdir -p "$PACKAGE_BUILD_PATH/deb/usr/share/icons/hicolor/128x128/apps"
+cp "$INSTALL_ICON" "$PACKAGE_BUILD_PATH/deb/usr/share/icons/hicolor/128x128/apps/$TARGET.png"
 
 #strip binary
 #find "$PACKAGE_BUILD_PATH/deb/opt" -type f | xargs strip --strip-debug #not working

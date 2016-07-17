@@ -21,6 +21,7 @@ cp -v "$QTDIR/plugins/platforms/libqxcb.so" "$DESTDIR/platforms"
 cp -R -v "$QTDIR/plugins/imageformats" "$DESTDIR"
 cp -R -v "$QTDIR/plugins/bearer" "$DESTDIR"
 cp -R -v "$QTDIR/plugins/iconengines" "$DESTDIR"
+cp -R -v "$QTDIR/plugins/xcbglintegrations" "$DESTDIR"
 
 #copy shared libraries
 ldd "$DESTDIR/$TARGET" | grep "=> /" | awk '{print $3}' | xargs -I '{}' cp -v '{}' "$DESTDIR/libs"
@@ -31,6 +32,8 @@ cp -v "$QTDIR/lib/libQt5Network.so.5" "$DESTDIR/libs"
 cp -v "$QTDIR/lib/libQt5Qml.so.5" "$DESTDIR/libs"
 cp -v "$QTDIR/lib/libQt5Quick.so.5" "$DESTDIR/libs"
 cp -v "$QTDIR/lib/libQt5Svg.so.5" "$DESTDIR/libs"
+cp -v "$QTDIR/lib/libQt5DBus.so"* "$DESTDIR/libs"
+cp -v "$QTDIR/lib/libQt5XcbQpa.so"* "$DESTDIR/libs"
 
 #create runner script
 cp -v "$(dirname $0)/nixRun.sh" "$DESTDIR/$TARGET.sh"

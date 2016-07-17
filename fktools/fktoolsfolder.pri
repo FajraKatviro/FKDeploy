@@ -1,16 +1,18 @@
 
 FK_TOOLS_FOLDER =
 
-win32{
-    FK_TOOLS_FOLDER = "$$(APPDATA)/FKTools"
+QMAKE_SPEC_T = $$[QMAKE_SPEC]
+
+contains(QMAKE_SPEC_T,.*win32.*){
+    FK_TOOLS_FOLDER = $$system_path($$(APPDATA)/FKTools)
 }
 
-unix:!mac:!android{
-    FK_TOOLS_FOLDER = "/$$(HOME)/FKTools"
-}
-
-mac{
+contains(QMAKE_SPEC_T,.*macx.*){
     FK_TOOLS_FOLDER = "/$$(HOME)/Applications/FKTools"
+}
+
+contains(QMAKE_SPEC_T,.*linux.*){
+    FK_TOOLS_FOLDER = "/$$(HOME)/FKTools"
 }
 
 export(FK_TOOLS_FOLDER)

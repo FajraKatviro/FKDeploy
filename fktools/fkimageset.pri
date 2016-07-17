@@ -18,10 +18,12 @@ mac{
     !isEmpty(QMAKE_POST_LINK): QMAKE_POST_LINK += ";"
     ios{
         QMAKE_POST_LINK += \
-            "cp -r $$ART_BUILD_FOLDER/bin/* $CODESIGNING_FOLDER_PATH/Library/Application Support/data/"
+            $$quote(mkdir -p \"$CODESIGNING_FOLDER_PATH/data\") $$escape_expand(\n\t) \
+            $$quote(cp -r \"$$ART_BUILD_FOLDER/bin/\"* \"$CODESIGNING_FOLDER_PATH/data\")
     }else{
         QMAKE_POST_LINK += \
-            "cp -r $$ART_BUILD_FOLDER/bin/* $$DESTDIR/$${TARGET}.app/Contents/Resources/data"
+            $$quote(mkdir -p \"$$DESTDIR/$${TARGET}.app/Contents/Resources/data\") $$escape_expand(\n\t) \
+            $$quote(cp -r "$$ART_BUILD_FOLDER/bin/*" \"$$DESTDIR/$${TARGET}.app/Contents/Resources/data\")
     }
 }
 

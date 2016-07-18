@@ -8,8 +8,13 @@
 namespace FKUtility {
     QDir dataDir(){
         QString path(QStandardPaths::locate(QStandardPaths::AppDataLocation, "data", QStandardPaths::LocateDirectory));
-        if(path.isEmpty())
+        if(path.isEmpty()){
+#ifdef Q_OS_ANDROID
+            path="assets:/data";
+#else
             path="./data";
+#endif
+        }
         return QDir(path);
     }
     QDir dlcDir(){

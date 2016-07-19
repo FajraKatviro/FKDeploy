@@ -7,12 +7,12 @@
 
 namespace FKUtility {
     QDir dataDir(){
-        QString path(QStandardPaths::locate(QStandardPaths::AppDataLocation, "data", QStandardPaths::LocateDirectory));
+        QString path(QStandardPaths::locate(QStandardPaths::AppDataLocation, "constAppData", QStandardPaths::LocateDirectory));
         if(path.isEmpty()){
 #ifdef Q_OS_ANDROID
-            path="assets:/data";
+            path="assets:/constAppData";
 #else
-            path="./data";
+            path="./constAppData";
 #endif
         }
         return QDir(path);

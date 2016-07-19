@@ -8,18 +8,18 @@ isEmpty(ART_BUILD_FOLDER){
     error("ART_BUILD_FOLDER is not set")
 }
 
-ART_DEPLOY_FOLDER = "$$DESTDIR/data"
+ART_DEPLOY_FOLDER = "$$DESTDIR/constAppData"
 
 mac{
     !isEmpty(QMAKE_POST_LINK): QMAKE_POST_LINK += ";"
     ios{
         QMAKE_POST_LINK += \
-            $$quote(mkdir -p \"$CODESIGNING_FOLDER_PATH/data\") $$escape_expand(\n\t) \
-            $$quote(cp -r \"$$ART_BUILD_FOLDER/bin/\"* \"$CODESIGNING_FOLDER_PATH/data\")
+            $$quote(mkdir -p \"$CODESIGNING_FOLDER_PATH/constAppData\") $$escape_expand(\n\t) \
+            $$quote(cp -r \"$$ART_BUILD_FOLDER/bin/\"* \"$CODESIGNING_FOLDER_PATH/constAppData\")
     }else{
         QMAKE_POST_LINK += \
-            $$quote(mkdir -p \"$$DESTDIR/$${TARGET}.app/Contents/Resources/data\") $$escape_expand(\n\t) \
-            $$quote(cp -r "$$ART_BUILD_FOLDER/bin/*" \"$$DESTDIR/$${TARGET}.app/Contents/Resources/data\")
+            $$quote(mkdir -p \"$$DESTDIR/$${TARGET}.app/Contents/Resources/constAppData\") $$escape_expand(\n\t) \
+            $$quote(cp -r "$$ART_BUILD_FOLDER/bin/*" \"$$DESTDIR/$${TARGET}.app/Contents/Resources/constAppData\")
     }
 }
 

@@ -1,10 +1,10 @@
 
 isEmpty(FK_IOS_PLIST){
-    error("FK_IOS_PLIST path is not set")
+    warning("FK_IOS_PLIST path is not set")
 }
 
 isEmpty(FK_MOBILE_ICONS){
-    error("FK_MOBILE_ICONS path is not set")
+    warning("FK_MOBILE_ICONS path is not set")
 }
 
 isEmpty(FK_MOBILE_SPLASH_SCREENS){
@@ -14,7 +14,7 @@ isEmpty(FK_MOBILE_SPLASH_SCREENS){
     android{
         FK_MOBILE_SPLASH_SCREENS = $$PWD/android_splashScreen
     }
-    #error("FK_MOBILE_SPLASH_SCREENS path is not set")
+    warning("FK_MOBILE_SPLASH_SCREENS path is not set, default splash screens used")
 }
 
 ios{

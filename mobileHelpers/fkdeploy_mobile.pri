@@ -31,10 +31,12 @@ ios{
 
 android{
     android_icon.files = $$FK_MOBILE_ICONS/mipmap*
-    android_icon.path = $$ANDROID_PACKAGE_SOURCE_DIR/res
+    android_icon.path = /res
+    android_icon.extra += $(COPY_DIR) $$system_path($$FK_MOBILE_ICONS) $$system_path($$ANDROID_PACKAGE_SOURCE_DIR/res)
     INSTALLS += android_icon
 
     app_launch_images.files = $$FK_MOBILE_SPLASH_SCREENS/drawable*
-    app_launch_images.path = $$ANDROID_PACKAGE_SOURCE_DIR/res
+    app_launch_images.path = /res
+    app_launch_images.extra = $(COPY_DIR) $$system_path($$FK_MOBILE_SPLASH_SCREENS) $$system_path($$ANDROID_PACKAGE_SOURCE_DIR/res)
     INSTALLS += app_launch_images
 }

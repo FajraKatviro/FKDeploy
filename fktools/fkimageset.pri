@@ -27,8 +27,8 @@ android{
     ANDROID_EXTRA_PLUGINS += $$files($$ART_DEPLOY_FOLDER)
 }
 
-imagesets.commands =   "$$FK_TOOLS_FOLDER/PackageManager" "$$ART_FOLDER" --dir $$escape_expand(\n\t) \
-                       "$$FK_TOOLS_FOLDER/PackageGenerator"  "$$ART_FOLDER" "$$ART_BUILD_FOLDER" "$$ART_DEPLOY_FOLDER" --clean --add --qrc --rcc --dir $$escape_expand(\n\t)
+imagesets.commands =   "$$system_path($$FK_TOOLS_FOLDER/PackageManager)" "$$ART_FOLDER" --dir $$escape_expand(\n\t) \
+                       "$$system_path($$FK_TOOLS_FOLDER/PackageGenerator)"  "$$ART_FOLDER" "$$ART_BUILD_FOLDER" "$$ART_DEPLOY_FOLDER" --clean --add --qrc --rcc --dir $$escape_expand(\n\t)
 
 first.depends += qmake
 

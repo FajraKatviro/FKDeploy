@@ -68,8 +68,8 @@ win32{
 QMAKE_EXTRA_TARGETS += deploy
 
 
-large_resource_compiler.output   = "$${DESTDIR}/${QMAKE_FILE_IN_BASE}.rcc"
-large_resource_compiler.commands = rcc --binary --no-compress "${QMAKE_FILE_NAME}" -o "$${DESTDIR}/${QMAKE_FILE_OUT}"
+large_resource_compiler.output   = "$$system_path($${DESTDIR}/constAppData/universalResources/${QMAKE_FILE_IN_BASE}.rcc)"
+large_resource_compiler.commands = rcc --binary --no-compress "${QMAKE_FILE_NAME}" -o "${QMAKE_FILE_OUT}"
 large_resource_compiler.CONFIG = no_link target_predeps
 large_resource_compiler.input = LARGE_RESOURCES
 

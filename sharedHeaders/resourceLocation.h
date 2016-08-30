@@ -11,7 +11,7 @@
 
 namespace FKUtility {
     struct ResourceLocator{
-        ResourceLocator(const QString& package):_package(package){
+        ResourceLocator(const QString& package=QString("universalResources")):_package(package){
             read(dataDir());
             read(dlcDir());
         }
